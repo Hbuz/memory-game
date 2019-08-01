@@ -31,11 +31,11 @@ const useStyles = makeStyles( () => ({
 }));
 
 
-export default function CardsNumber(props) {
+export default function FlipCards(props) {
 
   const classes = useStyles();
 
-  if (!props.flipped) return "Loading cards"
+  if (!props.flipped) return "Loading cards..."
 
 
   return (

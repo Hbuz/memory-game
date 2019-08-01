@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-export default function ChooseCards(props) {
+export default function NumberCards(props) {
 
   const classes = useStyles();
 

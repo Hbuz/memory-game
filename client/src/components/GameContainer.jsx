@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import request from 'superagent'
-import ChooseCards from './ChooseCards'
-import CardsNumber from './CardsNumber'
+import ChooseCards from './NumberCards'
+import CardsNumber from './FlipCards'
 import Grid from '@material-ui/core/Grid'
 
 const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:4001";
@@ -16,8 +16,7 @@ class GameContainer extends PureComponent {
       moves: null,
       newGame: false,
       result: null,
-      flipped: null,
-      turns: {}
+      flipped: null
     }
     this.chooseNumber = this.chooseNumber.bind(this)
     this.playerMove = this.playerMove.bind(this)
@@ -27,7 +26,8 @@ class GameContainer extends PureComponent {
 
   chooseNumber(event) {
     const number = event.target.value
-    request(`${baseUrl}/cards/${number}`)
+    request(`${baseUrl}/cards`)
+      .query({ number })
       .then(response => {
         this.setState({ cards: response.body.cards }, () => {
           this.setState({ sorted: [...this.state.cards].sort() },
@@ -88,9 +88,6 @@ class GameContainer extends PureComponent {
     e.preventDefault();
     let toFlip = this.state.flipped
     toFlip[e.target.value] = true;
-    // let a = true
-    // // this.setState({ ...this.state.flipped, flippedA });
-    // this.setState({ ...this.state.flipped[e.target.value], a });
     this.playerMove(Number(e.target.value))
   }
 

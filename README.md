@@ -14,7 +14,7 @@ to click on the cards in ascending order of the numbers that are on the other si
 
 ### Installing & Running
 ```
-git clone git@github.com:Hbuz/pokemon-list.git
+git clone git@github.com:Hbuz/memory-game.git
 ```
 
 #### Server folder
