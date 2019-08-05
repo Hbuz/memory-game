@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import request from 'superagent'
-import ChooseCards from './NumberCards'
-import CardsNumber from './FlipCards'
+import NumberCards from './NumberCards'
+import FlipCards from './FlipCards'
 import Grid from '@material-ui/core/Grid'
 
 const baseUrl = process.env.REACT_APP_API_URL || "http://localhost:4001";
@@ -86,9 +86,11 @@ class GameContainer extends PureComponent {
 
   handleClick(e) {
     e.preventDefault();
-    let toFlip = this.state.flipped
-    toFlip[e.target.value] = true;
-    this.playerMove(Number(e.target.value))
+    const card = e.target.value
+    let toFlip = {...this.state.flipped}
+    toFlip[card] = true;
+    this.setState({ flipped: toFlip })
+    this.playerMove(Number(card))
   }
 
 
@@ -96,7 +98,7 @@ class GameContainer extends PureComponent {
 
     if (this.state.cards.length === 0) {
       return (
-        <ChooseCards chooseNumber={this.chooseNumber} />
+        <NumberCards chooseNumber={this.chooseNumber} />
       )
 
     } else {
@@ -104,7 +106,7 @@ class GameContainer extends PureComponent {
         <div>
           <Grid container direction="column" alignItems="center">
             <Grid item>
-              <CardsNumber cards={this.state.cards} playerMove={this.playerMove} startGame={this.startGame}
+              <FlipCards cards={this.state.cards} playerMove={this.playerMove} startGame={this.startGame}
                 moves={this.state.moves} result={this.state.result} flipped={this.state.flipped}
                 handleClick={this.handleClick} />
             </Grid>
