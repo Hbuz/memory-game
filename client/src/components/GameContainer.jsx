@@ -29,18 +29,18 @@ class GameContainer extends PureComponent {
     request(`${baseUrl}/cards`)
       .query({ number })
       .then(response => {
-        this.setState({ cards: response.body.cards }, () => {
-          this.setState({ sorted: [...this.state.cards].sort() },
-            () => this.setFlipped())
+        const cards = [...response.body.cards]
+        this.setState({ cards: response.body.cards })
+        this.setState({ sorted: cards.sort((a, b) => a - b) },
+            () => this.setFlipped(true))
         })
-      })
   }
 
-  setFlipped() {
-    let flipped
+  setFlipped(flip) {
     const cards = this.state.cards
+    let flipped
     for (let i = 0; i < cards.length; i++) {
-      flipped = { ...flipped, [cards[i]]: true }
+      flipped = { ...flipped, [cards[i]]: flip }
     }
     this.setState({ flipped: flipped })
   }
@@ -61,17 +61,14 @@ class GameContainer extends PureComponent {
     } else {
       this.setState({ result: "Wrong card!" })
       this.setState({ newGame: true })
+      this.setFlipped(true)
     }
   }
 
 
   startGame() {
     this.setState({ moves: [] })
-    let flipBlank;
-    for (let i = 0; i < this.state.cards.length; i++) {
-      flipBlank = { ...flipBlank, [this.state.cards[i]]: false }
-    }
-    this.setState({ flipped: flipBlank })
+    this.setFlipped(false)
   }
 
   newGame() {
